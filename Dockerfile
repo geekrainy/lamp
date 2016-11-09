@@ -3,7 +3,9 @@ MAINTAINER Fernando Mayo <fernando@tutum.co>, Feng Honglin <hfeng@tutum.co>
 
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && \
+RUN sed -i s@archive.ubuntu.com@archive.ubuntu.mirrors.opensource.ynu.edu.cn@g /etc/apt/sources.list && \
+  sed -i s@security.ubuntu.com@archive.ubuntu.mirrors.opensource.ynu.edu.cn@g /etc/apt/sources.list && \
+  apt-get update && \
   apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
 

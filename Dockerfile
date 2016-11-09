@@ -23,6 +23,8 @@ RUN rm -rf /var/lib/mysql/*
 
 # Add MySQL utils
 ADD create_mysql_admin_user.sh /create_mysql_admin_user.sh
+ADD create_db.sh /create_db.sh
+RUN chmod +x /*.sh
 RUN chmod 755 /*.sh
 
 # config to enable .htaccess
@@ -30,8 +32,12 @@ ADD apache_default /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
 # Configure /app folder with sample app
-RUN git clone https://github.com/fermayo/hello-world-lamp.git /app
+RUN git clone https://git.coding.net/geekrainy/typecho.git /app
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
+RUN chmod 777 /app
+
+# Configure Wordpress to connect to local DB
+#ADD config.inc.php /app/config.inc.php
 
 #Environment variables to configure php
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
